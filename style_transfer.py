@@ -296,7 +296,7 @@ class StyleTransfer:
         self.model.get_model("facenet").square_faces = square_faces
 
         plot_size = scale_boundaries(*content_image.size, ref_size=256)
-        image_display = display(content_image.resize(plot_size), display_id=True)
+        image_display = display(content_image.resize(plot_size), display_id=True) if plot_progress else None
         status_display = display((), display_id=True)
 
         optimizer = None
@@ -373,7 +373,7 @@ class StyleTransfer:
                     result = self.get_image()
                     result.save(save_path)
 
-                if i % plot_every == 0 and plot_progress and image_display:
+                if i % plot_every == 0 and image_display:
                     result = self.get_image()
                     image_display.update(result.resize(plot_size))
 
