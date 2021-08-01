@@ -91,10 +91,8 @@ class BackgroundRemoval:
         background = self.gen_background(img.shape, color=bg_color)
 
         if bg_texture:
-            bg_texture = np.array(bg_texture.resize(img.shape[0:2]))
+            bg_texture = np.array(bg_texture.resize(img.shape[0:2][::-1]))
             background = (background * (1 - bt_fac) + bg_texture * bt_fac)
-
-        background = background
 
         foreground = img * alpha
         background = background * (1 - alpha)
