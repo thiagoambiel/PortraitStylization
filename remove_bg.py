@@ -79,7 +79,7 @@ class BackgroundRemoval:
 
         img = np.array(img)
 
-        if not alpha:
+        if alpha is None:
             alpha = self.gen_alpha(img)
 
         if fg_color:
@@ -121,13 +121,13 @@ if __name__ == "__main__":
     parser.add_argument("--input", "-i", help="Path to input image of human portrait.", type=str, required=True)
     parser.add_argument("--output", "-o", help="Path to save result image.", type=str, required=True)
 
-    parser.add_argument("--back_color", "-bc", help="Color to be applied to background.", type=str, default="black")
-    parser.add_argument("--back_texture", "-bt", help="Path to texture image to be applied to background.", type=str)
-    parser.add_argument("--back_texture_factor", "-bt_fac",
+    parser.add_argument("--back-color", "-bc", help="Color to be applied to background.", type=str, default="black")
+    parser.add_argument("--back-texture", "-bt", help="Path to texture image to be applied to background.", type=str)
+    parser.add_argument("--back-texture-factor", "-bt-fac",
                         help="Intensity of background texture overlay.", type=float, default=0.5)
 
-    parser.add_argument("--fore_color", "-fc", help="Color to be applied to foreground.", type=str)
-    parser.add_argument("--fore_color_factor", "-fc_fac",
+    parser.add_argument("--fore-color", "-fc", help="Color to be applied to foreground.", type=str)
+    parser.add_argument("--fore-color-factor", "-fc-fac",
                         help="Intensity of foreground color overlay.", type=float, default=0.2)
 
     parser.add_argument("--weights", "-w", help="MODNet weights for human segmentation.", type=str, required=True)

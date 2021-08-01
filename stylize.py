@@ -56,59 +56,59 @@ if __name__ == "__main__":
                         choices=['max', 'average', 'l2'],
                         help="\nStyleTransfer VGG model pooling model.")
 
-    parser.add_argument('--style_weights', '-sw', type=float, nargs='+', default=None,
+    parser.add_argument('--style-weights', '-sw', type=float, nargs='+', default=None,
                         help='\nThe relative weights for each style image.')
 
-    parser.add_argument('--content_weight', '-cw', **arg_info("content_weight"),
+    parser.add_argument('--content-weight', '-cw', **arg_info("content_weight"),
                         help='\nThe content image weight.')
 
-    parser.add_argument('--face_weight', '-fw', **arg_info("face_weight"),
+    parser.add_argument('--face-weight', '-fw', **arg_info("face_weight"),
                         help='\nThe weight of faces in content image.')
 
-    parser.add_argument('--mesh_weight', '-mw', **arg_info("mesh_weight"),
+    parser.add_argument('--mesh-weight', '-mw', **arg_info("mesh_weight"),
                         help='\nThe weight of face meshes in content image. (use only for fine adjustments)')
 
-    parser.add_argument('--tv_weight', '-tw', **arg_info("tv_weight"),
+    parser.add_argument('--tv-weight', '-tw', **arg_info("tv_weight"),
                         help='\nThe smoothing weight.')
 
-    parser.add_argument('--min_scale', '-min_s', **arg_info('min_scale'),
+    parser.add_argument('--min-scale', '-min_s', **arg_info('min_scale'),
                         help='\nThe minimum scale in pixels of images when in stylization. (in pixels)')
 
-    parser.add_argument('--end_scale', '-s', **arg_info("end_scale"),
+    parser.add_argument('--end-scale', '-s', **arg_info("end_scale"),
                         help='\nThe final scale of stylized image. (in pixels)')
 
     parser.add_argument('--iterations', '-i', **arg_info('iterations'),
                         help='\nThe number of iterations per scale.')
 
-    parser.add_argument('--initial_iterations', '-ii', **arg_info('initial_iterations'),
+    parser.add_argument('--initial-iterations', '-ii', **arg_info('initial_iterations'),
                         help='\nThe number of iterations on the first scale.')
 
-    parser.add_argument('--step_size', '-ss', **arg_info('step_size'),
+    parser.add_argument('--step-size', '-ss', **arg_info('step_size'),
                         help='\nThe step size. (learning rate)')
 
-    parser.add_argument('--avg_decay', '-ad', **arg_info('avg_decay'),
+    parser.add_argument('--avg-decay', '-ad', **arg_info('avg_decay'),
                         help='\nThe EMA decay rate for iterate averaging.')
 
     parser.add_argument('--init', **arg_info('init'),
                         choices=['content', 'gray', 'uniform', 'style_mean'],
                         help='\nThe image initialization mode.')
 
-    parser.add_argument('--style_size', **arg_info('style_size'),
+    parser.add_argument('--style-size', **arg_info('style_size'),
                         help='\nThe fixed scale of the style at different content scales.')
 
-    parser.add_argument('--style_scale_fac', **arg_info('style_scale_fac'),
+    parser.add_argument('--style-scale-fac', **arg_info('style_scale_fac'),
                         help='\nThe relative scale of the style to the content.')
 
-    parser.add_argument('--padding_scale_fac', '-ps', **arg_info("padding_scale_fac"),
+    parser.add_argument('--padding-scale-fac', '-ps', **arg_info("padding_scale_fac"),
                         help='\nThe padding factor to be applied to the bouncing boxes of detected faces.')
 
-    parser.add_argument('--crop_faces', '-cf', action='store_true',
+    parser.add_argument('--crop-faces', '-cf', action='store_true',
                         help='\nCrop detected faces before passing to facial models.')
 
-    parser.add_argument('--square_faces', '-sf', action='store_true',
+    parser.add_argument('--square-faces', '-sf', action='store_true',
                         help='\nResize detected faces bouncing boxes for width == height.')
 
-    parser.add_argument("--save_path", "-o", **arg_info("save_path"),
+    parser.add_argument("--save-path", "-o", **arg_info("save_path"),
                         help="\nPath to save result image.")
 
     parser.add_argument('--save-every', **arg_info("save_every"),
