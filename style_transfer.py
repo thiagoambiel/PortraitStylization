@@ -263,6 +263,9 @@ class StyleTransfer:
         if min([size for sizes in style_sizes for size in sizes]) < self.min_input_size:
             raise ValueError(f'Style images need to be at least {self.min_input_size}x{self.min_input_size}.')
 
+        content_image = content_image.convert("RGB")
+        style_images = [style_image.convert("RGB") for style_image in style_images]
+
         min_scale = min(min_scale, end_scale)
 
         content_weights = [content_weight / len(self.content_layers)] * len(self.content_layers)
