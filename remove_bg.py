@@ -70,6 +70,7 @@ class BackgroundRemoval:
         return alpha
 
     def remove_background(self, img: Image,
+                          alpha: np.ndarray = None,
                           bg_color: str = "black",
                           bg_texture: Image = None,
                           bt_fac: float = 0.5,
@@ -77,7 +78,9 @@ class BackgroundRemoval:
                           fg_fac: float = 0.2) -> Image:
 
         img = np.array(img)
-        alpha = self.gen_alpha(img)
+
+        if not alpha:
+            alpha = self.gen_alpha(img)
 
         if fg_color:
             fg_color = self.to_rgb(fg_color)
