@@ -119,6 +119,7 @@ class FacialFeatures(nn.Module):
             box[2] + padding_w,
             box[3] + padding_h
         ], dtype=np.int32)
+        pad_box = np.clip(pad_box, 0, None)
 
         return face_area, pad_box
 
