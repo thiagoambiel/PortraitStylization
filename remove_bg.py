@@ -2,6 +2,7 @@ from typing import Tuple
 
 import os
 import argparse
+import textwrap
 
 from PIL import Image, ImageColor
 from matplotlib import colors
@@ -102,34 +103,63 @@ class BackgroundRemoval:
         return Image.fromarray(np.uint8(result))
 
 
+class HelpFormatter(argparse.ArgumentDefaultsHelpFormatter,
+                    argparse.RawTextHelpFormatter,
+                    argparse.HelpFormatter):
+
+    def split_lines(self, text, width):
+        text = self._whitespace_matcher.sub(' ', text).strip()
+        return textwrap.wrap(text, width)
+
+    def _split_lines(self, text, width):
+        lines = self.split_lines(text, width)
+
+        if text.startswith('\n') or "help message" in text:
+            lines += ['']
+
+        return lines
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description='Background removal tool optimized for '
                     'human portrait images with MODNet as backend.',
 
         epilog=f'Usage:\n'
-               f'  python {os.path.basename(__file__)} -i input.jpeg\n'
-               f'  python {os.path.basename(__file__)} -i input.jpeg -bc BLUE\n'
-               f'  python {os.path.basename(__file__)} -i input.jpeg -bc #ff0000 -fc #0000FF\n'
-               f'  python {os.path.basename(__file__)} -i input.jpeg -fc #0000FF -fc_fac 0.5',
+               f'  python {os.path.basename(__file__)} input.png output.png\n'
+               f'  python {os.path.basename(__file__)} input.png output.png -bc BLUE\n'
+               f'  python {os.path.basename(__file__)} input.png output.png -bc #ff0000 -fc #0000FF\n'
+               f'  python {os.path.basename(__file__)} input.png output.png -fc #0000FF -fc_fac 0.5',
 
-        formatter_class=argparse.RawTextHelpFormatter
+        formatter_class=HelpFormatter
     )
 
-    parser.add_argument("--input", "-i", help="Path to input image of human portrait.", type=str, required=True)
-    parser.add_argument("--output", "-o", help="Path to save result image.", type=str, required=True)
+    parser.add_argument("input", type=str,
+                        help="Path to input image of human portrait.")
 
-    parser.add_argument("--back-color", "-bc", help="Color to be applied to background.", type=str, default="black")
-    parser.add_argument("--back-texture", "-bt", help="Path to texture image to be applied to background.", type=str)
+    parser.add_argument("output", type=str,
+                        help="Path to save result image.")
+
+    parser.add_argument("--back-color", "-bc", type=str, default="black",
+                        help="\nColor to be applied to background.")
+
+    parser.add_argument("--back-texture", "-bt", type=str,
+                        help="\nPath to texture image to be applied to background.")
+
     parser.add_argument("--back-texture-factor", "-bt-fac",
-                        help="Intensity of background texture overlay.", type=float, default=0.5)
+                        help="\nIntensity of background texture overlay.", type=float, default=0.5)
 
-    parser.add_argument("--fore-color", "-fc", help="Color to be applied to foreground.", type=str)
+    parser.add_argument("--fore-color", "-fc", type=str,
+                        help="\nColor to be applied to foreground.")
+
     parser.add_argument("--fore-color-factor", "-fc-fac",
-                        help="Intensity of foreground color overlay.", type=float, default=0.2)
+                        help="\nIntensity of foreground color overlay.", type=float, default=0.2)
 
-    parser.add_argument("--weights", "-w", help="MODNet weights for human segmentation.", type=str, required=True)
-    parser.add_argument("--device", "-d", help="Device to run the MODNet model.", type=str, default="cpu")
+    parser.add_argument("--weights", "-w", type=str, default="./weights/modnet.pth",
+                        help="\nMODNet weights for human segmentation.")
+
+    parser.add_argument("--device", "-d", type=str, default="cpu",
+                        help="Device to run the MODNet model.")
 
     args = parser.parse_args()
 
