@@ -12,7 +12,15 @@ This repository brings some changes to enhance the style transfer results on ima
 <p align="center">
   <b>Figure 1:</b> Stylization Diagram.
 </p>
-  
+
+First we pass the original image to the [MODNet Human Segmentation Model](#modnet-background-removal)
+to generate an alpha layer and remove the background. Then the content
+image is forwarded through the [FaceNet](#facial-identification-loss), 
+[FaceMesh](#facial-meshes-loss) and **VGG19** Models for feature extraction.
+The **VGG19** Model is also used to extract the features from desired style images.
+And finally, all the extracted features are joined to create the **Content**, 
+**Facial** and **Style** losses.
+
 ## Facial Identification Loss
 Using [FaceNet Inception Resnet Model (Tim Esler)](https://github.com/timesler/facenet-pytorch), with VGGFace2 Pretrained weights, We can implement a **FaceID Loss**,
 comparing the internal representations of the model from content image and result image with **MSE (Mean Squared Error)**,
@@ -135,11 +143,11 @@ image, need to be at least one.
 + `-o out.png` (`--save-path`): The path to save the result image.
 
 
-+ `-cw 0.05` (`--content-weight`): The **Content Loss** weight. Define how similar 
++ `-cw 0.05` (`--content-weight`): The **Content Loss** weight. It defines how similar 
 the content of result image will be when compared with the content image.
 
 
-+ `-fw 0.25` (`--face-weight`): The **FaceID Loss** weight. Define how similar
++ `-fw 0.25` (`--face-weight`): The **FaceID Loss** weight. It defines how similar
 the detected faces in result image will be when compared with the content image.
 
 
