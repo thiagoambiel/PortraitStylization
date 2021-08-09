@@ -203,6 +203,8 @@ You can run `python stylize.py --help` for more info.
 
 ## Example Results
 
+**Note**: It also works with multiple faces in the same image.
+
 <table>
   <tbody>
     <tr>
