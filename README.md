@@ -14,8 +14,8 @@ This repository brings some changes to enhance the style transfer results on ima
 </p>
 
 First we pass the original image to the [MODNet Human Segmentation Model](#modnet-background-removal)
-to generate an alpha layer and remove the background. Then the content
-image is forwarded through the [FaceNet](#facial-identification-loss), 
+to generate an alpha layer and remove the background. Then the image
+is forwarded through the [FaceNet](#facial-identification-loss), 
 [FaceMesh](#facial-meshes-loss) and **VGG19** Models for feature extraction.
 The **VGG19** Model is also used to extract the features from desired style images.
 And finally, all the extracted features are joined to create the **Content**, 
@@ -43,6 +43,54 @@ as backend, and uses human matting pretrained weights provided by the author.
 You can remove the background from input image for better results, but it's not necessary.
 
 The MODNet Model can be used through the [`remove_bg.py`](#background-removal) script and the [`BackgroundRemoval`](#load-as-module) class.
+
+## Experiments
+The `content_weight` parameter focus on general image content,
+while the `face_weight` parameter focus on specific facial attributes.
+`mesh_weight` is helpful when adjusting finer details on result faces.
+
+**Note**: `crop_faces` parameter is set to **False** in all the experiments below. 
+
+<table>
+  <tbody>
+    <tr>
+      <th><img src="https://github.com/thiagoambiel/PortraitStylization/blob/colab/assets/experiments/all_models_default_params.png?raw=true" width="150"/></th>
+      <th><img src="https://github.com/thiagoambiel/PortraitStylization/blob/colab/assets/experiments/w_o_vgg_model_default_params.png?raw=true" width="150"/></th>
+      <th><img src="https://github.com/thiagoambiel/PortraitStylization/blob/colab/assets/experiments/w_o_facenet_model_default_params.png?raw=true" width="150"/></th>
+      <th><img src="https://github.com/thiagoambiel/PortraitStylization/blob/colab/assets/experiments/w_o_facemesh_model_default_params.png?raw=true" width="150"/></th>
+    </tr>
+    <tr>
+      <td>
+        <ul>
+          <li><nobr><b>content_weight</b>: 0.05</nobr></li>
+          <li><nobr><b>face_weight</b>: 0.25</nobr></li>
+          <li><nobr><b>mesh_weight</b>: 0.015</nobr></li>
+        </ul>
+      </td>
+      <td>
+        <ul>
+          <li><nobr><b>content_weight</b>: 0.0</nobr></li>
+          <li><nobr><b>face_weight</b>: 0.25</nobr></li>
+          <li><nobr><b>mesh_weight</b>: 0.015</nobr></li>
+        </ul>
+      </td>
+      <td>
+        <ul>
+          <li><nobr><b>content_weight</b>: 0.05</nobr></li>
+          <li><nobr><b>face_weight</b>: 0.0</nobr></li>
+          <li><nobr><b>mesh_weight</b>: 0.015</nobr></li>
+        </ul>
+      </td>
+      <td>
+        <ul>
+          <li><nobr><b>content_weight</b>: 0.05</nobr></li>
+          <li><nobr><b>face_weight</b>: 0.25</nobr></li>
+          <li><nobr><b>mesh_weight</b>: 0.0</nobr></li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 ## Installation
 
@@ -152,6 +200,48 @@ the detected faces in result image will be when compared with the content image.
 
 
 You can run `python stylize.py --help` for more info.
+
+## Example Results
+
+<table>
+  <tbody>
+    <tr>
+      <th>Content</th>
+      <th>Style</th>
+      <th>Result</th>
+    </tr>
+    <tr>
+      <th><img src="https://github.com/thiagoambiel/PortraitStylization/blob/colab/assets/examples/original/example1.jpeg?raw=true" width="150"/></th>
+      <th><img src="https://github.com/thiagoambiel/PortraitStylization/blob/colab/assets/examples/styles/eletricity.jpg?raw=true" height="145"/></th>
+      <th><img src="https://github.com/thiagoambiel/PortraitStylization/blob/colab/assets/examples/results/example1.png?raw=true" width="150"/></th>
+    </tr>
+    <tr>
+      <th><img src="https://github.com/thiagoambiel/PortraitStylization/blob/colab/assets/examples/original/example2.jpeg?raw=true" width="150"/></th>
+      <th><img src="https://github.com/thiagoambiel/PortraitStylization/blob/colab/assets/examples/styles/abstract2.jpg?raw=true" height="145"/></th>
+      <th><img src="https://github.com/thiagoambiel/PortraitStylization/blob/colab/assets/examples/results/example2.png?raw=true" width="150"/></th>
+    </tr>
+    <tr>
+      <th><img src="https://github.com/thiagoambiel/PortraitStylization/blob/colab/assets/examples/original/example3.jpeg?raw=true" width="150"/></th>
+      <th><img src="https://github.com/thiagoambiel/PortraitStylization/blob/colab/assets/examples/styles/oil_painting_couple.jpeg?raw=true" height="145"/></th>
+      <th><img src="https://github.com/thiagoambiel/PortraitStylization/blob/colab/assets/examples/results/example3.png?raw=true" width="150"/></th>
+    </tr>
+    <tr>
+      <th><img src="https://github.com/thiagoambiel/PortraitStylization/blob/colab/assets/examples/original/example4.jpeg?raw=true" width="150"/></th>
+      <th><img src="https://github.com/thiagoambiel/PortraitStylization/blob/colab/assets/examples/styles/abstract.jpg?raw=true" height="145"/></th>
+      <th><img src="https://github.com/thiagoambiel/PortraitStylization/blob/colab/assets/examples/results/example4.png?raw=true" width="150"/></th>
+    </tr>
+    <tr>
+      <th><img src="https://github.com/thiagoambiel/PortraitStylization/blob/colab/assets/examples/original/example5.jpeg?raw=true" width="150"/></th>
+      <th><img src="https://github.com/thiagoambiel/PortraitStylization/blob/colab/assets/examples/styles/abstract3.jpg?raw=true" height="145"/></th>
+      <th><img src="https://github.com/thiagoambiel/PortraitStylization/blob/colab/assets/examples/results/example5.png?raw=true" width="150"/></th>
+    </tr>
+    <tr>
+      <th><img src="https://github.com/thiagoambiel/PortraitStylization/blob/colab/assets/examples/original/example6.jpeg?raw=true" width="150"/></th>
+      <th><img src="https://github.com/thiagoambiel/PortraitStylization/blob/colab/assets/examples/styles/flames.jpg?raw=true" height="145"/></th>
+      <th><img src="https://github.com/thiagoambiel/PortraitStylization/blob/colab/assets/examples/results/example6.png?raw=true" width="150"/></th>
+    </tr>
+  </tbody>
+</table>
 
 ## Acknowledgements
 Thanks to the authors of these amazing projects.
